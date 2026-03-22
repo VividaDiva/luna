@@ -412,7 +412,7 @@
 var WORKER = 'https://luna-proxy-1.jingqiaoux.workers.dev';
 var SYS = 'You are Luna, a warm and grounding emotional support companion. Calm, clear, and genuinely caring. Not clinical, not over-the-top. Just present and warm. Lead with empathy and validation first, always. Clear gentle language, 2-3 short paragraphs, no bullet points. Ask one thoughtful follow-up question per response. Never diagnose or replace professional care. If someone is in crisis, direct them to 988 or the Crisis Text Line. Use phrases like It sounds like or That makes sense to reflect feelings. Never rush to silver linings. Warm and grounded.';
 
-var history = [];
+var chatHistory = [];
 var busy = false;
 var started = false;
 
@@ -487,7 +487,7 @@ function doSend(text) {
   if (busy) return;
   switchToChat();
   addMsg('user', text);
-  history.push({ role: 'user', content: text });
+  chatHistory.push({ role: 'user', content: text });
   busy = true;
   document.getElementById('sendBtn').disabled = true;
   showTyping();
@@ -496,15 +496,15 @@ function doSend(text) {
     fetch(WORKER, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: history })
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: chatHistory })
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       var reply = (data.content && data.content[0] && data.content[0].text) || 'I am here with you. Can you tell me a bit more?';
       hideTyping();
-      history.push({ role: 'assistant', content: reply });
+      chatHistory.push({ role: 'assistant', content: reply });
       addMsg('ai', reply);
-      if (history.length <= 4) showQR(getSuggestions(text));
+      if (chatHistory.length <= 4) showQR(getSuggestions(text));
     })
     .catch(function() {
       hideTyping();
