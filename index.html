@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose:     #f4607a;
+    --rose-bg:  #fff1f4;
+    --lav:      #b197f8;
+    --cream:    #ffffff;
+    --bg:       #fafafa;
+    --plum:     #3b1f4a;
+    --muted:    #9e9e9e;
+    --border:   #e8e8e8;
+    --text:     #1a1a1a;
+    --pill:     999px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    flex-shrink: 0;
+  }
+
+  .logo { display: flex; align-items: center; gap: 8px; }
+
+  .logo-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--rose);
+  }
+
+  .logo-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .crisis-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: var(--pill);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .crisis-btn:hover { color: var(--rose); border-color: rgba(244,96,122,0.3); }
+
+  .main {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  #welcome {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px 80px;
+    gap: 32px;
+    animation: fadein 0.4s ease both;
+  }
+
+  .greeting { text-align: center; }
+
+  .greeting h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    background: linear-gradient(135deg, var(--rose) 0%, var(--lav) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  .greeting p {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 560px;
+  }
+
+  .chip {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--pill);
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: rgba(244,96,122,0.35); color: var(--rose); background: var(--rose-bg); }
+
+  #chatview {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 16px 8px;
+    scroll-behavior: smooth;
+    display: none;
+  }
+  #chatview.active { display: block; }
+  #chatview::-webkit-scrollbar { width: 3px; }
+  #chatview::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .msgs {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .message { animation: up 0.28s cubic-bezier(0.22,1,0.36,1) both; }
+
+  .message.user {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+  .user-bubble {
+    background: #f0f0f0;
+    border-radius: 20px 20px 4px 20px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 72%;
+    font-weight: 400;
+  }
+
+  .message.ai {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding-right: 40px;
+  }
+
+  .luna-mark {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--rose);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .ai-text {
+    font-size: 0.9rem;
+    line-height: 1.72;
+    color: var(--text);
+    font-weight: 400;
+    flex: 1;
+  }
+
+  .typing {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    animation: up 0.2s ease both;
+  }
+
+  .tdots { display: flex; gap: 5px; align-items: center; padding-top: 6px; }
+
+  .tdots span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    animation: tdot 1.2s ease infinite;
+  }
+  .tdots span:nth-child(1) { background: var(--rose); animation-delay: 0s; }
+  .tdots span:nth-child(2) { background: #e87fa0; animation-delay: .18s; }
+  .tdots span:nth-child(3) { background: var(--lav); animation-delay: .36s; }
+
+  @keyframes tdot {
+    0%,60%,100% { transform:translateY(0) scale(.8); opacity:.4; }
+    30% { transform:translateY(-5px) scale(1); opacity:1; }
+  }
+
+  .quick-replies {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    padding-left: 40px;
+    margin-bottom: 16px;
+    animation: up 0.28s ease both;
+  }
+
+  .qr-btn {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--pill);
+    padding: 6px 13px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .qr-btn:hover { border-color: rgba(244,96,122,0.35); color: var(--rose); }
+
+  .input-area { flex-shrink: 0; padding: 12px 16px 16px; }
+
+  .input-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    padding: 6px 8px 6px 16px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+  .input-inner:focus-within {
+    border-color: rgba(244,96,122,0.4);
+    box-shadow: 0 2px 12px rgba(244,96,122,0.08);
+  }
+
+  textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 7px 0;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  textarea::placeholder { color: var(--muted); }
+
+  .send-btn {
+    width: 36px; height: 36px;
+    background: var(--rose);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, background 0.15s;
+    box-shadow: 0 2px 8px rgba(244,96,122,0.28);
+  }
+  .send-btn:hover { transform: scale(1.08); background: #f0506c; }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+  .send-btn svg { width: 16px; height: 16px; fill: white; }
+
+  .disclaimer { text-align: center; font-size: 0.6rem; color: #c0c0c0; margin-top: 8px; }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.25);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    animation: fadein 0.18s ease;
+  }
+  .overlay.hidden { display: none; }
+
+  .modal {
+    background: var(--cream);
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 380px;
+    width: 90%;
+    animation: up 0.28s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.12);
+  }
+
+  .modal-top { background: var(--rose); padding: 20px 22px; color: white; }
+  .modal-top h2 { font-size: 1rem; font-weight: 700; }
+  .modal-top p { font-size: 0.75rem; opacity: 0.85; margin-top: 3px; }
+
+  .modal-body { padding: 14px 18px 18px; }
+  .resources { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+
+  .res {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+  }
+  .res strong { font-size: 0.78rem; color: var(--text); font-weight: 600; display: block; }
+  .res span { font-size: 0.67rem; color: var(--muted); }
+  .res-num { color: var(--rose); font-weight: 700; font-size: 0.84rem; white-space: nowrap; margin-left: 8px; }
+
+  .modal-close {
+    width: 100%;
+    background: var(--plum);
+    border: none;
+    border-radius: 10px;
+    padding: 11px;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .modal-close:hover { opacity: 0.85; }
+
+  @keyframes up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadein { from { opacity:0; } to { opacity:1; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-name">Luna</span>
+  </div>
+  <button class="crisis-btn" onclick="document.getElementById('modal').classList.remove('hidden')">Get help now</button>
+</header>
+
+<div class="main">
+  <div id="welcome">
+    <div class="greeting">
+      <h1>How are you feeling?</h1>
+      <p>I'm here to listen — take your time.</p>
+    </div>
+    <div class="chips">
+      <button class="chip" onclick="go('I am feeling anxious lately')">😰 Anxious</button>
+      <button class="chip" onclick="go('I have been feeling lonely')">🌧 Lonely</button>
+      <button class="chip" onclick="go('I am totally overwhelmed')">😵 Overwhelmed</button>
+      <button class="chip" onclick="go('I am grieving a loss')">💔 Grieving</button>
+      <button class="chip" onclick="go('I just need to vent')">💬 Just venting</button>
+      <button class="chip" onclick="go('I am feeling low today')">🥺 Feeling low</button>
+    </div>
+  </div>
+
+  <div id="chatview">
+    <div class="msgs" id="msgs"></div>
+  </div>
+</div>
+
+<div class="input-area">
+  <div class="input-inner">
+    <textarea id="inp" placeholder="Share what's on your mind..." rows="1"
+      onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="disclaimer">Luna is not a substitute for professional care. Tap "Get help now" if you are in crisis.</div>
+</div>
+
+<div class="overlay hidden" id="modal">
+  <div class="modal">
+    <div class="modal-top">
+      <h2>You matter. Help is here.</h2>
+      <p>If you are in immediate danger, please call 911.</p>
+    </div>
+    <div class="modal-body">
+      <div class="resources">
+        <div class="res"><div><strong>988 Suicide and Crisis Lifeline</strong><span>Call or text, 24/7</span></div><span class="res-num">988</span></div>
+        <div class="res"><div><strong>Crisis Text Line</strong><span>Text HOME to 741741</span></div><span class="res-num">741741</span></div>
+        <div class="res"><div><strong>SAMHSA Helpline</strong><span>Mental health and substance support</span></div><span class="res-num">1-800-662-4357</span></div>
+        <div class="res"><div><strong>Trans Lifeline</strong><span>Peer support</span></div><span class="res-num">877-565-8860</span></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.add('hidden')">Got it, take me back</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SYS = "You are Luna, a warm and grounding emotional support companion. Calm, clear, and genuinely caring. Not clinical, not over-the-top. Just present and warm. Lead with empathy and validation first, always. Use clear gentle language, 2-3 short paragraphs, no bullet points. Ask one thoughtful follow-up question per response. Never diagnose or replace professional care. If someone is in crisis, gently direct them to 988 or the Crisis Text Line. Use phrases like It sounds like or That makes sense to reflect feelings. Never rush to silver linings. Sentence case, warm and grounded.";
+
+  let history = [];
+  let busy = false;
+  let started = false;
+
+  const face = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="10" r="1.5" fill="white"/><circle cx="15.5" cy="10" r="1.5" fill="white"/><path d="M8 15.5 Q12 18.5 16 15.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>';
+
+  function switchToChat() {
+    if (started) return;
+    started = true;
+    document.getElementById('welcome').style.display = 'none';
+    document.getElementById('chatview').classList.add('active');
+  }
+
+  function addMsg(role, text) {
+    const msgs = document.getElementById('msgs');
+    const d = document.createElement('div');
+    if (role === 'user') {
+      d.innerHTML = '<div class="message user"><div class="user-bubble">' + text.replace(/
+/g,'<br>') + '</div></div>';
+    } else {
+      d.innerHTML = '<div class="message ai"><div class="luna-mark">' + face + '</div><div class="ai-text">' + text.replace(/
+/g,'<br>') + '</div></div>';
+    }
+    msgs.appendChild(d);
+    scroll();
+  }
+
+  function showTyping() {
+    const msgs = document.getElementById('msgs');
+    const d = document.createElement('div');
+    d.id = 'typing';
+    d.innerHTML = '<div class="typing"><div class="luna-mark">' + face + '</div><div class="tdots"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(d);
+    scroll();
+  }
+
+  function hideTyping() { document.getElementById('typing') && document.getElementById('typing').remove(); }
+
+  function showQR(arr) {
+    if (!arr.length) return;
+    const msgs = document.getElementById('msgs');
+    const d = document.createElement('div');
+    d.className = 'quick-replies'; d.id = 'qr';
+    d.innerHTML = arr.map(function(s) { return '<button class="qr-btn" onclick="go(this.textContent)">' + s + '</button>'; }).join('');
+    msgs.appendChild(d);
+    scroll();
+  }
+
+  function scroll() {
+    const c = document.getElementById('chatview');
+    c.scrollTop = c.scrollHeight;
+  }
+
+  async function send(override) {
+    if (busy) return;
+    const inp = document.getElementById('inp');
+    const text = override || inp.value.trim();
+    if (!text) return;
+    const qr = document.getElementById('qr');
+    if (qr) qr.remove();
+    if (!override) { inp.value = ''; inp.style.height = 'auto'; }
+    switchToChat();
+    addMsg('user', text);
+    history.push({ role: 'user', content: text });
+    busy = true;
+    document.getElementById('sendBtn').disabled = true;
+    showTyping();
+    await new Promise(function(r) { setTimeout(r, 450 + Math.random() * 400); });
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: history })
+      });
+      const data = await res.json();
+      const reply = (data.content && data.content[0] && data.content[0].text) || "I am here with you. Can you tell me a bit more?";
+      hideTyping();
+      history.push({ role: 'assistant', content: reply });
+      addMsg('ai', reply);
+      if (history.length <= 4) showQR(getQR(text));
+    } catch(e) {
+      hideTyping();
+      addMsg('ai', "Something went sideways but I am still here. What is on your mind?");
+    }
+    busy = false;
+    document.getElementById('sendBtn').disabled = false;
+  }
+
+  function go(text) {
+    const qr = document.getElementById('qr');
+    if (qr) qr.remove();
+    send(text);
+  }
+
+  function getQR(t) {
+    const l = t.toLowerCase();
+    if (l.indexOf('anxious') >= 0 || l.indexOf('anxiety') >= 0 || l.indexOf('worried') >= 0)
+      return ['It comes in waves', 'It has been going on a while', 'I want to try breathing exercises'];
+    if (l.indexOf('lonely') >= 0 || l.indexOf('alone') >= 0)
+      return ['It started recently', 'I feel it even around people', 'It has been a long time'];
+    if (l.indexOf('overwhelm') >= 0)
+      return ['It is work or school', 'It is relationships', 'Everything at once'];
+    if (l.indexOf('low') >= 0 || l.indexOf('sad') >= 0 || l.indexOf('down') >= 0 || l.indexOf('griev') >= 0)
+      return ['Something happened recently', 'I am not sure why', 'It comes and goes'];
+    return [];
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  }
+
+  function resize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+</script>
+</body>
+</html>
