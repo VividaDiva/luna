@@ -212,13 +212,13 @@
     border-radius: 50%;
     animation: tdot 1.2s ease infinite;
   }
-  .tdots span:nth-child(1) { background: var(--rose); animation-delay: 0s; }
-  .tdots span:nth-child(2) { background: #e87fa0; animation-delay: .18s; }
-  .tdots span:nth-child(3) { background: var(--lav); animation-delay: .36s; }
+  .tdots span:nth-child(1) { background: var(--rose);  animation-delay: 0s; }
+  .tdots span:nth-child(2) { background: #e87fa0;      animation-delay: .18s; }
+  .tdots span:nth-child(3) { background: var(--lav);   animation-delay: .36s; }
 
   @keyframes tdot {
     0%,60%,100% { transform:translateY(0) scale(.8); opacity:.4; }
-    30% { transform:translateY(-5px) scale(1); opacity:1; }
+    30%          { transform:translateY(-5px) scale(1); opacity:1; }
   }
 
   .quick-replies {
@@ -302,13 +302,10 @@
   .disclaimer { text-align: center; font-size: 0.6rem; color: #c0c0c0; margin-top: 8px; }
 
   .overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.25);
     z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     backdrop-filter: blur(4px);
     animation: fadein 0.18s ease;
   }
@@ -318,8 +315,7 @@
     background: var(--cream);
     border-radius: 20px;
     overflow: hidden;
-    max-width: 380px;
-    width: 90%;
+    max-width: 380px; width: 90%;
     animation: up 0.28s cubic-bezier(0.22,1,0.36,1);
     box-shadow: 0 16px 50px rgba(0,0,0,0.12);
   }
@@ -332,12 +328,9 @@
   .resources { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
 
   .res {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    border: 1px solid var(--border); border-radius: 12px;
     background: var(--bg);
   }
   .res strong { font-size: 0.78rem; color: var(--text); font-weight: 600; display: block; }
@@ -345,17 +338,9 @@
   .res-num { color: var(--rose); font-weight: 700; font-size: 0.84rem; white-space: nowrap; margin-left: 8px; }
 
   .modal-close {
-    width: 100%;
-    background: var(--plum);
-    border: none;
-    border-radius: 10px;
-    padding: 11px;
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
+    width: 100%; background: var(--plum); border: none; border-radius: 10px;
+    padding: 11px; color: white; font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
   }
   .modal-close:hover { opacity: 0.85; }
 
@@ -377,15 +362,15 @@
   <div id="welcome">
     <div class="greeting">
       <h1>How are you feeling?</h1>
-      <p>I'm here to listen — take your time.</p>
+      <p>I'm here to listen &mdash; take your time.</p>
     </div>
     <div class="chips">
-      <button class="chip" onclick="go('I am feeling anxious lately')">😰 Anxious</button>
-      <button class="chip" onclick="go('I have been feeling lonely')">🌧 Lonely</button>
-      <button class="chip" onclick="go('I am totally overwhelmed')">😵 Overwhelmed</button>
-      <button class="chip" onclick="go('I am grieving a loss')">💔 Grieving</button>
-      <button class="chip" onclick="go('I just need to vent')">💬 Just venting</button>
-      <button class="chip" onclick="go('I am feeling low today')">🥺 Feeling low</button>
+      <button class="chip" onclick="go('I am feeling anxious lately')">&#128560; Anxious</button>
+      <button class="chip" onclick="go('I have been feeling lonely')">&#127783; Lonely</button>
+      <button class="chip" onclick="go('I am totally overwhelmed')">&#128565; Overwhelmed</button>
+      <button class="chip" onclick="go('I am grieving a loss')">&#128148; Grieving</button>
+      <button class="chip" onclick="go('I just need to vent')">&#128172; Just venting</button>
+      <button class="chip" onclick="go('I am feeling low today')">&#128546; Feeling low</button>
     </div>
   </div>
 
@@ -397,8 +382,8 @@
 <div class="input-area">
   <div class="input-inner">
     <textarea id="inp" placeholder="Share what's on your mind..." rows="1"
-      onkeydown="onKey(event)" oninput="resize(this)"></textarea>
-    <button class="send-btn" id="sendBtn" onclick="send()">
+      onkeydown="onKey(event)" oninput="resizeInp(this)"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="go(document.getElementById('inp').value.trim())">
       <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
   </div>
@@ -413,9 +398,9 @@
     </div>
     <div class="modal-body">
       <div class="resources">
-        <div class="res"><div><strong>988 Suicide and Crisis Lifeline</strong><span>Call or text, 24/7</span></div><span class="res-num">988</span></div>
+        <div class="res"><div><strong>988 Suicide &amp; Crisis Lifeline</strong><span>Call or text, 24/7</span></div><span class="res-num">988</span></div>
         <div class="res"><div><strong>Crisis Text Line</strong><span>Text HOME to 741741</span></div><span class="res-num">741741</span></div>
-        <div class="res"><div><strong>SAMHSA Helpline</strong><span>Mental health and substance support</span></div><span class="res-num">1-800-662-4357</span></div>
+        <div class="res"><div><strong>SAMHSA Helpline</strong><span>Mental health &amp; substance support</span></div><span class="res-num">1-800-662-4357</span></div>
         <div class="res"><div><strong>Trans Lifeline</strong><span>Peer support</span></div><span class="res-num">877-565-8860</span></div>
       </div>
       <button class="modal-close" onclick="document.getElementById('modal').classList.add('hidden')">Got it, take me back</button>
@@ -424,123 +409,138 @@
 </div>
 
 <script>
-  const SYS = "You are Luna, a warm and grounding emotional support companion. Calm, clear, and genuinely caring. Not clinical, not over-the-top. Just present and warm. Lead with empathy and validation first, always. Use clear gentle language, 2-3 short paragraphs, no bullet points. Ask one thoughtful follow-up question per response. Never diagnose or replace professional care. If someone is in crisis, gently direct them to 988 or the Crisis Text Line. Use phrases like It sounds like or That makes sense to reflect feelings. Never rush to silver linings. Sentence case, warm and grounded.";
+var WORKER = 'https://luna-proxy-1.jingqiaoux.workers.dev';
+var SYS = 'You are Luna, a warm and grounding emotional support companion. Calm, clear, and genuinely caring. Not clinical, not over-the-top. Just present and warm. Lead with empathy and validation first, always. Clear gentle language, 2-3 short paragraphs, no bullet points. Ask one thoughtful follow-up question per response. Never diagnose or replace professional care. If someone is in crisis, direct them to 988 or the Crisis Text Line. Use phrases like It sounds like or That makes sense to reflect feelings. Never rush to silver linings. Warm and grounded.';
 
-  let history = [];
-  let busy = false;
-  let started = false;
+var history = [];
+var busy = false;
+var started = false;
 
-  const face = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="10" r="1.5" fill="white"/><circle cx="15.5" cy="10" r="1.5" fill="white"/><path d="M8 15.5 Q12 18.5 16 15.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>';
+var FACE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="10" r="1.5" fill="white"/><circle cx="15.5" cy="10" r="1.5" fill="white"/><path d="M8 15.5 Q12 18.5 16 15.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>';
 
-  function switchToChat() {
-    if (started) return;
-    started = true;
-    document.getElementById('welcome').style.display = 'none';
-    document.getElementById('chatview').classList.add('active');
+function switchToChat() {
+  if (started) return;
+  started = true;
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('chatview').classList.add('active');
+}
+
+function addMsg(role, text) {
+  var msgs = document.getElementById('msgs');
+  var d = document.createElement('div');
+  var safe = text.split('\n').join('<br>');
+  if (role === 'user') {
+    d.innerHTML = '<div class="message user"><div class="user-bubble">' + safe + '</div></div>';
+  } else {
+    d.innerHTML = '<div class="message ai"><div class="luna-mark">' + FACE + '</div><div class="ai-text">' + safe + '</div></div>';
   }
+  msgs.appendChild(d);
+  scrollChat();
+}
 
-  function addMsg(role, text) {
-    const msgs = document.getElementById('msgs');
-    const d = document.createElement('div');
-    if (role === 'user') {
-      d.innerHTML = '<div class="message user"><div class="user-bubble">' + text.replace(/
-/g,'<br>') + '</div></div>';
-    } else {
-      d.innerHTML = '<div class="message ai"><div class="luna-mark">' + face + '</div><div class="ai-text">' + text.replace(/
-/g,'<br>') + '</div></div>';
-    }
-    msgs.appendChild(d);
-    scroll();
+function showTyping() {
+  var msgs = document.getElementById('msgs');
+  var d = document.createElement('div');
+  d.id = 'typing';
+  d.innerHTML = '<div class="typing"><div class="luna-mark">' + FACE + '</div><div class="tdots"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(d);
+  scrollChat();
+}
+
+function hideTyping() {
+  var t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function showQR(arr) {
+  if (!arr.length) return;
+  var msgs = document.getElementById('msgs');
+  var d = document.createElement('div');
+  d.className = 'quick-replies';
+  d.id = 'qr';
+  var html = '';
+  for (var i = 0; i < arr.length; i++) {
+    html += '<button class="qr-btn" onclick="go(\'' + arr[i].split("'").join("\\'") + '\')">' + arr[i] + '</button>';
   }
+  d.innerHTML = html;
+  msgs.appendChild(d);
+  scrollChat();
+}
 
-  function showTyping() {
-    const msgs = document.getElementById('msgs');
-    const d = document.createElement('div');
-    d.id = 'typing';
-    d.innerHTML = '<div class="typing"><div class="luna-mark">' + face + '</div><div class="tdots"><span></span><span></span><span></span></div></div>';
-    msgs.appendChild(d);
-    scroll();
-  }
+function scrollChat() {
+  var c = document.getElementById('chatview');
+  c.scrollTop = c.scrollHeight;
+}
 
-  function hideTyping() { document.getElementById('typing') && document.getElementById('typing').remove(); }
+function go(text) {
+  var qr = document.getElementById('qr');
+  if (qr) qr.remove();
+  var inp = document.getElementById('inp');
+  if (!text) text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  doSend(text);
+}
 
-  function showQR(arr) {
-    if (!arr.length) return;
-    const msgs = document.getElementById('msgs');
-    const d = document.createElement('div');
-    d.className = 'quick-replies'; d.id = 'qr';
-    d.innerHTML = arr.map(function(s) { return '<button class="qr-btn" onclick="go(this.textContent)">' + s + '</button>'; }).join('');
-    msgs.appendChild(d);
-    scroll();
-  }
+function doSend(text) {
+  if (busy) return;
+  switchToChat();
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+  busy = true;
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
 
-  function scroll() {
-    const c = document.getElementById('chatview');
-    c.scrollTop = c.scrollHeight;
-  }
-
-  async function send(override) {
-    if (busy) return;
-    const inp = document.getElementById('inp');
-    const text = override || inp.value.trim();
-    if (!text) return;
-    const qr = document.getElementById('qr');
-    if (qr) qr.remove();
-    if (!override) { inp.value = ''; inp.style.height = 'auto'; }
-    switchToChat();
-    addMsg('user', text);
-    history.push({ role: 'user', content: text });
-    busy = true;
-    document.getElementById('sendBtn').disabled = true;
-    showTyping();
-    await new Promise(function(r) { setTimeout(r, 450 + Math.random() * 400); });
-    try {
-const res = await fetch('https://luna-proxy-1.jingqiaoux.workers.dev', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: history })
-      });
-      const data = await res.json();
-      const reply = (data.content && data.content[0] && data.content[0].text) || "I am here with you. Can you tell me a bit more?";
+  setTimeout(function() {
+    fetch(WORKER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: history })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var reply = (data.content && data.content[0] && data.content[0].text) || 'I am here with you. Can you tell me a bit more?';
       hideTyping();
       history.push({ role: 'assistant', content: reply });
       addMsg('ai', reply);
-      if (history.length <= 4) showQR(getQR(text));
-    } catch(e) {
+      if (history.length <= 4) showQR(getSuggestions(text));
+    })
+    .catch(function() {
       hideTyping();
-      addMsg('ai', "Something went sideways but I am still here. What is on your mind?");
-    }
-    busy = false;
-    document.getElementById('sendBtn').disabled = false;
-  }
+      addMsg('ai', 'Something went sideways on my end, but I am still here. What is on your mind?');
+    })
+    .finally(function() {
+      busy = false;
+      document.getElementById('sendBtn').disabled = false;
+    });
+  }, 500 + Math.floor(Math.random() * 400));
+}
 
-  function go(text) {
-    const qr = document.getElementById('qr');
-    if (qr) qr.remove();
-    send(text);
-  }
+function getSuggestions(t) {
+  var l = t.toLowerCase();
+  if (l.indexOf('anxious') >= 0 || l.indexOf('anxiety') >= 0 || l.indexOf('worried') >= 0)
+    return ['It comes in waves', 'It has been going on a while', 'I want to try breathing exercises'];
+  if (l.indexOf('lonely') >= 0 || l.indexOf('alone') >= 0)
+    return ['It started recently', 'I feel it even around people', 'It has been a long time'];
+  if (l.indexOf('overwhelm') >= 0)
+    return ['It is work or school', 'It is relationships', 'Everything at once'];
+  if (l.indexOf('low') >= 0 || l.indexOf('sad') >= 0 || l.indexOf('down') >= 0 || l.indexOf('griev') >= 0)
+    return ['Something happened recently', 'I am not sure why', 'It comes and goes'];
+  return [];
+}
 
-  function getQR(t) {
-    const l = t.toLowerCase();
-    if (l.indexOf('anxious') >= 0 || l.indexOf('anxiety') >= 0 || l.indexOf('worried') >= 0)
-      return ['It comes in waves', 'It has been going on a while', 'I want to try breathing exercises'];
-    if (l.indexOf('lonely') >= 0 || l.indexOf('alone') >= 0)
-      return ['It started recently', 'I feel it even around people', 'It has been a long time'];
-    if (l.indexOf('overwhelm') >= 0)
-      return ['It is work or school', 'It is relationships', 'Everything at once'];
-    if (l.indexOf('low') >= 0 || l.indexOf('sad') >= 0 || l.indexOf('down') >= 0 || l.indexOf('griev') >= 0)
-      return ['Something happened recently', 'I am not sure why', 'It comes and goes'];
-    return [];
+function onKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    go(document.getElementById('inp').value.trim());
   }
+}
 
-  function onKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
-  }
-
-  function resize(el) {
-    el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-  }
+function resizeInp(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
 </script>
 </body>
 </html>
